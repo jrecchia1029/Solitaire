@@ -1,8 +1,10 @@
 # Solitaire
 
-Play Game by running mainclass
+View Raw
 
 How to play game:
+Play Game by running mainclass
+
 
  ----------------------------------------------------->  Move or Draw  <--------------------------------------------------
  |                                                     /            \                                                    | 
