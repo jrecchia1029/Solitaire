@@ -143,10 +143,10 @@ public class Game {
 	}
 
 	public boolean moveCheck(Card a, LinkedList stack){
-		if (stack.size()<=0 && a.value== 1&& (stack==stack8 || stack==stack9 || stack== stack10 || stack== stack11)){
+		if (stack.size()<=0 && a.value == 1 && (stack==(stack8) || stack==(stack9) || stack==(stack10) || stack==(stack11))){
 			return true;
 		}
-		else if (stack.size()<=0 && a.value==13 && (stack!=stack8 || stack!=stack9 || stack!= stack10 || stack!= stack11|| stack!=drawn)){
+		else if (stack.size()<=0 && a.value==13 && stack!=stack8 && stack!=(stack9) && stack!=(stack10) && stack!=(stack11) && stack!=(drawn)){	
 			return true;
 		} 
 		else {
@@ -251,6 +251,12 @@ public class Game {
 			}
 			else if (move.equalsIgnoreCase("m")){
 				this.getCard();
+			}
+			else if (move.equalsIgnoreCase("l")){
+				this.autoMove();
+			}
+			else if (move.equalsIgnoreCase("p")){
+				this.printStack();
 			}
 		}catch(Exception e){
 		}
@@ -483,7 +489,7 @@ public class Game {
 						}
 						else{
 							System.out.println(moveCheck((Card)stacks[j].get(i),stacks[stack-1]));
-							if (moveCheck((Card)stacks[j].get(i),stacks[stack-1])==true){
+							if (moveCheck((Card)stacks[j].get(i), stacks[stack-1])==true){
 								if (i!=stacks[j].size()-1){
 									Card tempCard=(Card) stacks[j].get(i);
 									stacks[stack-1].add(tempCard);
@@ -530,5 +536,95 @@ public class Game {
 			suit="Spades";
 		}
 		return suit;
+	}
+	
+	public void printStack(){
+		
+		System.out.println("Size of stacks: " + stacks.length);
+		System.out.println(drawn);
+	}
+
+	public LinkedList<Pair> ListMoves(){
+		LinkedList<Pair> moves = new LinkedList<Pair>();
+		Card srcCard;
+		Card destCard;
+		System.out.println("Possible Moves:");
+		for (int j=0; j<stacks.length; j++){ //cycle through source stacks
+			//System.out.println(j + " of " + (stacks.length-1));
+			for (int i=0; i<largestList();i++){
+				//				System.out.println(largestList());
+				if (j == 7 || j==8 || j==9 || j==10 || j==11){
+					if (stacks[j].size()<=0){
+						//System.out.println("hit");
+						break;
+					}
+				}
+				if (i<stacks[j].size()){ //keep index within range of stack
+					//					System.out.println(i + " < " + stacks[j].size());
+					//System.out.println(j + " : " + (stacks.length-1));
+					if (j != (stacks.length-1)){
+						srcCard = (Card) stacks[j].get(i);
+						//System.out.println(srcCard.toString());
+					}else{		
+						srcCard = (Card) stacks[j].get(stacks[j].size()-1);
+						//System.out.println(srcCard.toString());
+					}	
+					if (srcCard.up){
+						for (int k = 0; k < stacks.length-1; k++){ //cycle through destination stacks
+							int destStack = k;
+							if (stacks[k].size()>0){
+								destCard = (Card) stacks[k].get(stacks[k].size()-1);
+								if (moveCheck(srcCard, destCard, stacks[k])){
+									Pair pair= new Pair(srcCard, k);
+									moves.add(pair);
+									//System.out.println(srcCard.toString() + " to " + destCard.toString() + " in stack " + (k+1));
+								}
+							}
+							else{
+								if (moveCheck(srcCard, stacks[k])){
+									//System.out.println(srcCard.toString() + " to stack " + (k+1));
+									Pair pair= new Pair(srcCard, k);
+									moves.add(pair);
+								}
+							}
+							//System.out.println("Src: " + srcCard);
+							//System.out.println("DestStack: " + (k+1));
+						}
+						break;
+					}
+				}	
+			}
+		}
+		System.out.println("Possible Moves: " + moves.toString());
+		return moves;
+	}
+	
+	public LinkedList<Pair> filterMoves(LinkedList<Pair> moves){
+		LinkedList<Pair> filteredMoves = new LinkedList<Pair>();
+		String srcCard;
+		int dstStack;
+		String tempValue;
+//		for (int i=0; i<moves.size(); i++){
+//			srcCard = moves.get(i).getLeft().toString();
+//			dstStack = (int) moves.get(i).getRight();
+//			tempValue = moves.get(i).getLeft().toString().split(" ")[0];
+//			System.out.println(tempValue + " vs 1");
+//			if (tempValue.equals('1')){
+//				System.out.println("hi");
+//				if (dstStack!=7 && dstStack!=8 && dstStack!=9 && dstStack!=10){
+//					filteredMoves.add(moves.get(i));
+//				}
+//			}
+//			else if (!srcCard.substring(0, 2).equals("1")){
+//				filteredMoves.add(moves.get(i));
+//			}
+//		}
+//		System.out.println("Filtered Moves: " + filteredMoves.toString());
+		return moves;
+	}
+	
+	public void autoMove(){
+		LinkedList<Pair> allMoves = ListMoves();
+		LinkedList<Pair> filteredMoves = filterMoves(allMoves);
 	}
 }
