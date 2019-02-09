@@ -1,6 +1,6 @@
 # Solitaire
 
-View file Raw
+View raw file
 
 How to play game:
 Play Game by running mainclass
