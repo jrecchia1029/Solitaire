@@ -1,11 +1,9 @@
 # Solitaire
 
-View raw file
+## How to play:
+ - Start the game by running mainclass
 
-How to play game:
-Play Game by running mainclass
-
-
+```
  ------------------------------------------------------------------>  Move or Draw  <--------------------------------------------------
  |                                                                   /            \                                                    | 
  |                                                                  /              \                                                   |
@@ -19,3 +17,4 @@ Play Game by running mainclass
  |                               \                     /        
  |                                \                   /
  |<-----------------------Input stack you want to move card to
+```
